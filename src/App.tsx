@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import './App.css'
+import NetworkGraph from './components/NetworkGraph'
+import WorldMap from './components/WorldMap'
 
 type Lang = 'en' | 'de' | 'fr'
 type View = 'world' | 'signals' | 'archive' | 'analysis' | 'theories' | 'map' | 'settings'
@@ -273,12 +275,15 @@ export default function App() {
                 <p>Aktive Peaks: {signals.filter((s) => s.strength > 70).length}</p>
               </div>
               <div className="analysis-card">
-                <h4>Netzwerkkarte</h4>
-                <p>Knoten: {places.length + docs.length} · Kanten: {places.length * 2}</p>
+                <h4>Netzwerkkarte (D3)</h4>
+                <p>Knoten: {places.length + docs.length + places.length} · Kanten: {places.length * 2}</p>
               </div>
               <div className="analysis-card">
                 <h4>Anomalie-Heatmap</h4>
-                <p>Hotspot: {places.sort((a, b) => b.signalStrength - a.signalStrength)[0].title}</p>
+                <p>Hotspot: {[...places].sort((a, b) => b.signalStrength - a.signalStrength)[0].title}</p>
+              </div>
+              <div className="analysis-card analysis-wide">
+                <NetworkGraph places={places} docs={docs} />
               </div>
             </div>
           )}
@@ -295,13 +300,18 @@ export default function App() {
 
           {view === 'map' && (
             <div className="cards">
-              {places.map((p) => (
-                <article key={p.id}>
-                  <strong>{p.title}</strong>
-                  <span>Koordinaten: {p.coords[0]}, {p.coords[1]}</span>
-                  <span>Archivverweise: {p.archiveRefs.join(', ')}</span>
-                </article>
-              ))}
+              <article className="map-card">
+                <strong>Interaktive Weltkarte</strong>
+                <span>Klicke einen Punkt, um den Datenknoten rechts zu fokussieren.</span>
+                <WorldMap
+                  places={places}
+                  selectedId={selectedPlace.id}
+                  onSelect={(id) => {
+                    const next = places.find((p) => p.id === id)
+                    if (next) setSelectedPlace(next)
+                  }}
+                />
+              </article>
             </div>
           )}
 

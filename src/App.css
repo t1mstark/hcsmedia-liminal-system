@@ -20,6 +20,9 @@
 .analysis-grid { margin-top: 14px; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
 .analysis-card { border: 1px solid #253746; padding: 12px; background: rgba(8, 17, 25, 0.75); }
 .analysis-card h4 { margin: 0 0 8px; color: #dff0fd; }
+.analysis-wide { grid-column: 1 / -1; }
+.viz-surface { width: 100%; border: 1px solid #294050; background: #060f16; margin-top: 8px; }
+.map-card { cursor: default !important; }
 .theory-box { margin-top: 14px; display: grid; gap: 10px; }
 .theory-box textarea { width: 100%; min-height: 110px; padding: 10px; color: #d2e3ef; background: #0a151f; border: 1px solid #2c465a; }
 .theory-box button { width: fit-content; padding: 9px 12px; border: 1px solid #35546a; background: #102131; color: #d8ebf8; cursor: pointer; }
