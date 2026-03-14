@@ -2,9 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import NetworkGraph from './components/NetworkGraph'
 import WorldMap from './components/WorldMap'
+import MiniGame2D from './components/MiniGame2D'
+import MiniGame3D from './components/MiniGame3D'
+import SignalDecoder from './components/SignalDecoder'
 
 type Lang = 'en' | 'de' | 'fr'
-type View = 'world' | 'signals' | 'archive' | 'analysis' | 'theories' | 'map' | 'settings'
+type View = 'world' | 'signals' | 'archive' | 'analysis' | 'theories' | 'map' | 'games' | 'settings'
 
 type Place = {
   id: string
@@ -121,7 +124,7 @@ const text = {
     pick: 'Sprache wählen',
     boot: 'SYSTEM INITIALISIERT',
     bootLogs: ['loading archive nodes', 'scanning signal channels', 'synchronizing world map', 'initializing anomaly detection'],
-    nav: ['WORLD', 'SIGNALS', 'ARCHIVE', 'ANALYSIS', 'THEORIES', 'MAP', 'SETTINGS'],
+    nav: ['WORLD', 'SIGNALS', 'ARCHIVE', 'ANALYSIS', 'THEORIES', 'MAP', 'GAMES', 'SETTINGS'],
     made: 'HCSMEDIA — made with ❤️ by HCSMEDIA',
   },
   en: {
@@ -130,7 +133,7 @@ const text = {
     pick: 'Choose language',
     boot: 'SYSTEM INITIALIZING',
     bootLogs: ['loading archive nodes', 'scanning signal channels', 'synchronizing world map', 'initializing anomaly detection'],
-    nav: ['WORLD', 'SIGNALS', 'ARCHIVE', 'ANALYSIS', 'THEORIES', 'MAP', 'SETTINGS'],
+    nav: ['WORLD', 'SIGNALS', 'ARCHIVE', 'ANALYSIS', 'THEORIES', 'MAP', 'GAMES', 'SETTINGS'],
     made: 'HCSMEDIA — made with ❤️ by HCSMEDIA',
   },
   fr: {
@@ -139,12 +142,12 @@ const text = {
     pick: 'Choisir la langue',
     boot: 'INITIALISATION DU SYSTÈME',
     bootLogs: ['loading archive nodes', 'scanning signal channels', 'synchronizing world map', 'initializing anomaly detection'],
-    nav: ['WORLD', 'SIGNALS', 'ARCHIVE', 'ANALYSIS', 'THEORIES', 'MAP', 'SETTINGS'],
+    nav: ['WORLD', 'SIGNALS', 'ARCHIVE', 'ANALYSIS', 'THEORIES', 'MAP', 'GAMES', 'SETTINGS'],
     made: 'HCSMEDIA — made with ❤️ by HCSMEDIA',
   },
 } as const
 
-const viewKeys: View[] = ['world', 'signals', 'archive', 'analysis', 'theories', 'map', 'settings']
+const viewKeys: View[] = ['world', 'signals', 'archive', 'analysis', 'theories', 'map', 'games', 'settings']
 
 export default function App() {
   const [lang, setLang] = useState<Lang | null>(() => {
@@ -252,6 +255,9 @@ export default function App() {
                   <div className="meter"><div style={{ width: `${s.strength}%` }} /></div>
                 </article>
               ))}
+              <article className="map-card">
+                <SignalDecoder />
+              </article>
             </div>
           )}
 
@@ -311,6 +317,17 @@ export default function App() {
                     if (next) setSelectedPlace(next)
                   }}
                 />
+              </article>
+            </div>
+          )}
+
+          {view === 'games' && (
+            <div className="cards">
+              <article className="map-card">
+                <strong>Game Mode: Liminal Arcade</strong>
+                <span>2D + 3D Minigames, Decoder-Mechanics, exploration-driven gameplay.</span>
+                <MiniGame2D />
+                <MiniGame3D />
               </article>
             </div>
           )}
